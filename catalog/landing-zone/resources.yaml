@@ -1,0 +1,51 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xlandingzones.platform.envato.dev
+spec:
+  group: platform.envato.dev
+  names:
+    kind: xLandingZone
+    plural: xlandingzones
+  claimNames:
+    kind: LandingZone
+    plural: landingzones
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                region:
+                  type: string
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: landing-zone
+  namespace: crossplane-system
+spec:
+  resources:
+  - name: envato-vpc
+    base:
+      apiVersion: ec2.aws.crossplane.io/v1beta1
+      kind: VPC
+      spec:
+        forProvider:
+          region: us-east-1
+          cidrBlock: 10.0.0.0/16
+          enableDnsSupport: true
+          enableDnsHostNames: true
+          instanceTenancy: default
+        providerConfigRef:
+          name: aws-provider-config
+  compositeTypeRef:
+    apiVersion: platform.envato.dev/v1alpha1
+    kind: xLandingZone
+...

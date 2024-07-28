@@ -1,0 +1,18 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: envato-catalog
+  namespace: argocd
+spec:
+  destination:
+    namespace: envato-platform
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: catalog
+    repoURL: https://github.com/CloudNativeArchitects/envato-platform.git
+    targetRevision: HEAD
+    directory:
+      recurse: true
+...

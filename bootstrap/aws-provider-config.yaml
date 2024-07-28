@@ -1,12 +1,14 @@
+---
 apiVersion: aws.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: aws-provider-config
-  namespace: upbound-system
+  namespace: crossplane-system
 spec:
   credentials:
     source: Secret
     secretRef:
-      namespace: upbound-system
+      namespace: crossplane-system
       name: aws-secret
       key: creds
+...
