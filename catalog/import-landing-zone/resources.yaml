@@ -44,5 +44,5 @@ spec:
           name: aws-provider-config
   compositeTypeRef:
     apiVersion: platform.envato.dev/v1alpha1
-    kind: xLandingZone
+    kind: xImportedLandingZone
 ...
