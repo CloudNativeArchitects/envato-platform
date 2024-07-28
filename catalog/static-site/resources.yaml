@@ -1,0 +1,47 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata: 
+  name: xstaticsites.platform.envato.dev
+spec:
+  group: platform.envato.dev
+  names:
+    kind: xStaticSite
+    plural: xstaticsites
+  claimNames:
+    kind: StaticSite
+    plural: staticsites
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              region:
+                type: string
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: static-site
+  namespace: upbound-system
+spec:
+  resources:
+  - name: envato-bucket-test-2
+    base:
+      apiVersion: s3.aws.upbound.io/v1beta1
+      kind: Bucket
+      spec:
+        forProvider:
+          region: us-east-1
+        providerConfigRef:
+          name: aws-provider-config
+  compositeTypeRef:
+    apiVersion: platform.envato.dev/v1alpha1
+    kind: xStaticSite
+...
