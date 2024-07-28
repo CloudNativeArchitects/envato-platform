@@ -22,7 +22,7 @@ spec:
             spec:
               type: object
               properties:
-                vpcId:
+                region:
                   type: string
 ---
 apiVersion: apiextensions.crossplane.io/v1
@@ -37,9 +37,11 @@ spec:
       - fromFieldPath: metadata.annotations
         toFieldPath: metadata.annotations
     base:
-      apiVersion: ec2.aws.crossplane.io/v1beta1
+      apiVersion: ec2.aws.upbound.io/v1beta1
       kind: VPC
       spec:
+        forProvider:
+          region: us-east-1
         providerConfigRef:
           name: aws-provider-config
   compositeTypeRef:
